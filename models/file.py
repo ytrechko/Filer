@@ -1,8 +1,13 @@
 from database.session import Base
 from sqlalchemy import ForeignKey, DateTime
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.sql import func
 from datetime import datetime
+
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from .user import User
 
 
 class File(Base):
@@ -14,4 +19,13 @@ class File(Base):
     uploadet_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now()
     )
-    owner_id: Mapped[int] = mapped_column(ForeignKey("users.id"), nullable=False)
+    owner_id: Mapped[int] = mapped_column(
+        ForeignKey("users.id"),
+        ondelete="CASCADE",
+        nullable=False,
+    )
+
+    owner: Mapped["User"] = relationship(
+        "User",
+        back_populates="files",
+    )
