@@ -2,14 +2,11 @@ from fastapi import FastAPI
 import uvicorn
 from contextlib import asynccontextmanager
 
-from database import Base, engine
 from api import users_router, files_router, forms_router
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.create_all)
 
     yield
 
