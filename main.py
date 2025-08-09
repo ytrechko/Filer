@@ -6,14 +6,11 @@ from database import Base, engine
 from api import users_router, files_router, forms_router
 
 
-async def init_models():
+@asynccontextmanager
+async def lifespan(app: FastAPI):
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
 
-
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    await init_models()
     yield
 
 
