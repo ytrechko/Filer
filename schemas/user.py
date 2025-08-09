@@ -24,9 +24,6 @@ class UserUpdate(BaseModel):
     name: Optional[str] = None
     email: Optional[EmailStr] = None
 
-    class Config:
-        orm_mode = True
-
 
 class UserWithFilesRead(UserRead):
     files: list["FileRead"] = []

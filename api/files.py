@@ -15,8 +15,7 @@ async def create_file_route(
     file: FileCreate, db: AsyncSession = Depends(get_db)
 ) -> Dict[str, str]:
 
-    await create_file(file, db)
-    return {"status": "file successful created"}
+    return await create_file(file, db)
 
 
 @router.get("/", response_model=List[FileRead])

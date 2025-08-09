@@ -7,11 +7,12 @@ from models import File
 from schemas import FileCreate, FileRead
 
 
-async def create_file(file: FileCreate, db: AsyncSession):
+async def create_file(file: FileCreate, db: AsyncSession) -> FileRead:
     db_file = File(title=file.title, description=file.description)
     db.add(db_file)
     await db.commit()
     await db.refresh(db_file)
+    return db_file
 
 
 async def read_all_files(db: AsyncSession) -> List[FileRead]:

@@ -13,9 +13,8 @@ router = APIRouter(prefix="/user", tags=["user"])
 @router.post("/")
 async def create_user_route(
     user: UserCreate, db: AsyncSession = Depends(get_db)
-) -> Dict[str, str]:
-    await create_user(user, db)
-    return {"status": "user successful created"}
+) -> UserWithFilesRead:
+    return await create_user(user, db)
 
 
 @router.get("/{user_id}/", response_model=UserWithFilesRead)
@@ -35,9 +34,8 @@ async def read_all_users_route(
 @router.put("/{user_id}/")
 async def update_user_route(
     user_id: int, user: UserUpdate, db: AsyncSession = Depends(get_db)
-) -> Dict[str, str]:
-    await update_user(user_id, user, db)
-    return {"status": "user successful updated"}
+) -> UserWithFilesRead:
+    return await update_user(user_id, user, db)
 
 
 @router.delete("/{user_id}/")
