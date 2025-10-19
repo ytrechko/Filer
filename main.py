@@ -4,15 +4,17 @@ from contextlib import asynccontextmanager
 
 from api import users_router, files_router, forms_router
 
+from demo_auth import router as auth_router
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-
     yield
 
 
 app = FastAPI(lifespan=lifespan)
 
+app.include_router(auth_router)
 app.include_router(forms_router)
 app.include_router(files_router)
 app.include_router(users_router)

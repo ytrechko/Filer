@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, ConfigDict
 from typing import Optional
 
 from .file import FileRead
@@ -27,3 +27,11 @@ class UserUpdate(BaseModel):
 
 class UserWithFilesRead(UserRead):
     files: list["FileRead"] = []
+
+
+class UserSchema(BaseModel):
+    model_config = ConfigDict(strict=True)
+
+    username: str
+    password: bytes
+    email: EmailStr
